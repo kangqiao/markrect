@@ -1,0 +1,57 @@
+[
+
+  {
+    "model": "jwt_auth.staff",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$100000$fe82Og8hXVp3$k4UHMzcYqo2IdliGHbewNGXsuYUtpiXR7RZM/zkcEwg=",
+      "last_login": "2018-03-01T11:04:31.993Z",
+      "username": "admin",
+      "email": "admin@example.com",
+      "is_active": true,
+      "is_superuser": true,
+      "is_admin": true,
+      "introduce_by": "",
+      "date_joined": "2018-03-01T08:17:09.800Z",
+      "roles": [
+
+      ]
+    }
+  },
+  {
+    "model": "jwt_auth.staff",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$100000$XyLMrRBG5OUq$ub0Cmf8sLTENfOttONN+5gtLIEoSI4xF0IjnCLwpW0c=",
+      "last_login": "2018-03-01T11:42:00Z",
+      "username": "xianchao",
+      "email": "xianchao@longquan.org",
+      "is_active": true,
+      "is_superuser": false,
+      "is_admin": false,
+      "introduce_by": "",
+      "date_joined": "2018-03-01T11:50:38.932Z",
+      "roles": [
+
+      ]
+    }
+  },
+  {
+    "model": "jwt_auth.staff",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$100000$Fm4kHpW606lW$GVr/8gCL5OVzFXcGLVp8cc9LvKbO2ScD2f1B4qWYhzs=",
+      "last_login": "2018-03-01T11:42:00Z",
+      "username": "test",
+      "email": "kangqiao182@126.com",
+      "is_active": true,
+      "is_superuser": true,
+      "is_admin": false,
+      "introduce_by": "",
+      "date_joined": "2018-03-01T11:49:47.698Z",
+      "roles": [
+
+      ]
+    }
+  }
+]
