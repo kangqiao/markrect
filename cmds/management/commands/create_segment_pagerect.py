@@ -20,6 +20,7 @@ class Command(BaseCommand):
             except:
                 print('龙泉经目中未查到此编号：'+sid)
                 continue
+            codes = ""
             if not lqsutra is None:
                 sutra_list = Sutra.objects.filter(lqsutra=lqsutra)
                 pagerect_list = []
@@ -34,8 +35,9 @@ class Command(BaseCommand):
                                         page = Page.objects.get(reel=reel, page_no=page_no)
                                     except:
                                         page = None
-                                    code = reel.image_prefix() + str(page_no)
-                                    img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)
+                                    code = reel.reel_code() + "_P" + str(page_no)
+                                    codes += code +" "
+                                    img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)+".jpg"
                                     pagerect = PageRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_UNCOMPLETED)
                                     pagerect_list.append(pagerect)
                         else:

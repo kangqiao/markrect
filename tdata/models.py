@@ -137,6 +137,9 @@ class Reel(models.Model):
         unique_together = (('sutra', 'reel_no'),)        
         ordering = ('id',)
 
+    def reel_code(self):
+        return self.sutra.sid + "_V" + str(self.start_vol) + "_R" + str(self.reel_no)
+
     @property
     def name(self):
         return u"第%s卷" %(self.reel_no,)
