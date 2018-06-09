@@ -62,3 +62,11 @@ cmd> python manage.py test
 celery -A markrect worker --loglevel=info
 celery -A markrect beat -l debug
 ```
+
+
+# Gunicorn 配置
+#### 安装gevent [简介](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001407503089986d175822da68d4d6685fbe849a0e0ca35000)
+`pip install gevent`
+#### 运行
+###### 使用python环境下的gunicorn
+`/root/.virtualenvs/markrect2/bin/gunicorn -c /root/markrect/gunicorn.conf.py markrect.wsgi:application`

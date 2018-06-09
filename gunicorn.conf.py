@@ -1,12 +1,14 @@
+#!/usr/bin/ python3
+# -*- coding: utf-8 -*-
 # gunicorn.py
 import logging
 import logging.handlers
 from logging.handlers import WatchedFileHandler
 import os
 import multiprocessing
-bind = '127.0.0.1:8000'       #绑定ip和端口号
+bind = '127.0.0.1:5000'       #绑定ip和端口号
 backlog = 512                 #监听队列
-chdir = '/root/market'   #gunicorn要切换到的目的工作目录
+chdir = '/root/markrect'   #gunicorn要切换到的目的工作目录
 timeout = 30      #超时
 worker_class = 'gevent' #使用gevent模式，还可以使用sync 模式，默认的是sync模式
 workers = multiprocessing.cpu_count() * 2 + 1    #进程数
@@ -33,5 +35,5 @@ access_log_format = '%(t)s %(p)s %(h)s "%(r)s" %(s)s %(L)s %(b)s %(f)s" "%(a)s"'
         {Header}i   request header
         {Header}o   response header
 """
-accesslog = "/home/ubutnu/web/flasky/log/gunicorn_access.log"      #访问日志文件
-errorlog = "/home/ubutnu/web/flasky/log/gunicorn_error.log"        #错误日志文件
+accesslog = "/root/markrect/log/gunicorn_access.log"      #访问日志文件
+errorlog = "/root/markrect/log/gunicorn_error.log"        #错误日志文件
