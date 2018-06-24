@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from tdata.models import *
-from segment.models import PageRect, PageRectStatus
+from segment.models import PageRect, PageRectStatus, ColumnRect
 
 import os
 
@@ -38,8 +38,8 @@ class Command(BaseCommand):
                                     code = reel.reel_code() + "_P" + str(page_no)
                                     codes += code +" "
                                     img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)+".jpg"
-                                    # todo 下载图片, 调用可新的切页接口. 产生了xywh
-                                    pagerect = PageRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_UNCOMPLETED)
+                                    # todo 下载图片, 调用可新的切列接口. 产生了xywh column_no
+                                    pagerect = ColumnRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_COLUMN_COMPLETED)
                                     pagerect_list.append(pagerect)
                         else:
                             print('还未导入{}的{}经的相关卷详目信息'.format(sutra.tripitaka.name, sutra.name))
