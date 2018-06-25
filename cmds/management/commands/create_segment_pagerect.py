@@ -2,6 +2,10 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from tdata.models import *
 from segment.models import PageRect, PageRectStatus
+from cmds.management.commands.pageReactArith import loadImg
+#from cmds.management.commands.colArith import getCols,getPieces,getPieceInfo
+from cmds.management.commands.downImg import download_img
+
 
 import os
 
@@ -38,7 +42,10 @@ class Command(BaseCommand):
                                     code = reel.reel_code() + "_P" + str(page_no)
                                     codes += code +" "
                                     img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)+".jpg"
-                                    # todo 下载图片, 调用可新的切页接口. 产生了xywh
+                                    img = download_img(img_path) #下载图片存储到本地，并返回路径
+                                    zuobiaoStr = loadImg(img[0])#调用切框的算法，返回坐标值
+                                    print(zuobiaoStr)#139,39,140,25
+                                    print("=============11111============")
                                     pagerect = PageRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_UNCOMPLETED)
                                     pagerect_list.append(pagerect)
                         else:
