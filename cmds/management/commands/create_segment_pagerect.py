@@ -46,7 +46,8 @@ class Command(BaseCommand):
                                     zuobiaoStr = loadImg(img[0])#调用切框的算法，返回坐标值
                                     print(zuobiaoStr)#139,39,140,25
                                     print("=============11111============")
-                                    pagerect = PageRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_UNCOMPLETED)
+                                    array = zuobiaoStr.split(',')
+                                    pagerect = PageRect(code=code, img_path=img_path, page=page, x=array[0], y=array[1], w=array[2], h=array[3], status=PageRectStatus.CUT_UNCOMPLETED)
                                     pagerect_list.append(pagerect)
                         else:
                             print('还未导入{}的{}经的相关卷详目信息'.format(sutra.tripitaka.name, sutra.name))
