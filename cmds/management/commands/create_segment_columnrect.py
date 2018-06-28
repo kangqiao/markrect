@@ -1,11 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from tdata.models import *
-from segment.models import PageRect, PageRectStatus
-from cmds.management.commands.pageReactArith import loadImg
-#from cmds.management.commands.colArith import getCols,getPieces,getPieceInfo
-from cmds.management.commands.downImg import download_img
-
+from segment.models import PageRect, PageRectStatus, ColumnRect
 
 import os
 
@@ -42,12 +38,8 @@ class Command(BaseCommand):
                                     code = reel.reel_code() + "_P" + str(page_no)
                                     codes += code +" "
                                     img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)+".jpg"
-                                    img = download_img(img_path) #下载图片存储到本地，并返回路径
-                                    zuobiaoStr = loadImg(img[0])#调用切框的算法，返回坐标值
-                                    print(zuobiaoStr)#139,39,140,25
-                                    print("=============11111============")
-                                    array = zuobiaoStr.split(',')
-                                    pagerect = PageRect(code=code, img_path=img_path, page=page, x=array[0], y=array[1], w=array[2], h=array[3], status=PageRectStatus.CUT_UNCOMPLETED)
+                                    # todo 下载图片, 调用可新的切列接口. 产生了xywh column_no
+                                    pagerect = ColumnRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_COLUMN_COMPLETED)
                                     pagerect_list.append(pagerect)
                         else:
                             print('还未导入{}的{}经的相关卷详目信息'.format(sutra.tripitaka.name, sutra.name))

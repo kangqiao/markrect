@@ -39,7 +39,6 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-
 INSTALLED_APPS = [
     'dmXadmin.apps.DmxadminConfig',
     'tdata.apps.TdataConfig',
@@ -173,7 +172,7 @@ DATETIME_FORMAT = "%Y年%m月%d日 %H时%M分%S秒"
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
