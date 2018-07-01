@@ -37,7 +37,7 @@ class OpStatus(object):
     RECOG = 4
     COLLATE = 5
     CHOICES = (
-        (NORMAL, u'正常'),
+        (NORMAL, u'正常'), #初始状态, 未被人工校对过的.
         (CHANGED, u'被更改'),
         (DELETED, u'被删除'),
         (RECOG, u'文字识别'),
@@ -102,6 +102,13 @@ class PageRect(Rect):
     text = models.TextField('整页文本', default='', blank=True)
     rect_set = JSONField(default=list, verbose_name=u'字块JSON切分数据集', blank=True)
 
+    def update_date(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+
     def img_url(self):
         # https://s3.cn-north-1.amazonaws.com.cn/lqdzj-image/YB/19/YB_19_644.jpg
         img_url = "%s/%s.jpg" % (settings.IMAGE_URL_PREFIX, self.img_path)
@@ -117,8 +124,25 @@ class ColumnRect(Rect):
     pagerect = models.ForeignKey(PageRect, null=True, blank=True, related_name='column_rects', on_delete=models.SET_NULL, verbose_name=u'页块')
     column_no = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=u'列号', default=0)  # 对应图片的一列
 
+    def gen_code(self, no):
+        if self.pagerect:
+            self.column_no = int(no)
+            self.code = self.pagerect.code + "_L" + str(no)
+
+    @staticmethod
+    def create_columnRect(pagerect, no, x, y, w, h):
+        if pagerect:
+            column = ColumnRect(pagerect=pagerect)
+            column.gen_code(no)
+            column.x = x
+            column.y = y
+            column.w = w
+            column.h = h
+            return column
+        return None
+
     def column_uri(self):
-        return Rect.column_uri_path(self.code)
+        return ColumnRect.column_uri_path(self.code)
 
     @staticmethod
     def column_uri_path(col_s3_id):
@@ -138,6 +162,18 @@ class CharRect(Rect):
     cc = models.FloatField(null=True, blank=True, verbose_name=u'切分置信度', default=1) #是否需要了.
     ch = models.CharField(null=True, blank=True, verbose_name=u'文字', max_length=2, default='') #ocr识别的, 或者上一次校对的结果.
     ts = models.CharField(null=True, blank=True, verbose_name=u'标字', max_length=2, default='') #校对后的
+
+    @staticmethod
+    def create_charRect(columnRect, no, x, y, w, h):
+        if columnRect:
+            char = CharRect(pagerect=columnRect.pagerect, column_no=columnRect.column_no)
+            char.gen_code(no)
+            char.x = x
+            char.y = y
+            char.w = w
+            char.h = h
+            return char
+        return None
 
     class Meta:
         verbose_name = u"字块"
@@ -272,7 +308,7 @@ class Task(models.Model):
         verbose_name=u'任务优先级',
         db_index=True,
     )
-    update_date = models.DateField(null=True, verbose_name=u'最近处理时间')
+    update_date = models.DateField(null=True, verbose_name=u'最近处理时间', auto_now=True)
 
     def __str__(self):
         return self.number
@@ -304,6 +340,9 @@ class Task(models.Model):
         self.owner = user
         self.save()
 
+    def gen_number(self, code, no):
+        self.number = code + "_T" + str(no)
+
     class Meta:
         abstract = True
         verbose_name = u"切分任务"
@@ -327,7 +366,7 @@ class ColumnTask(Task):
     schedule = models.ForeignKey(Schedule, null=True, blank=True, related_name='column_tasks', on_delete=models.SET_NULL, verbose_name=u'切分计划')
     owner = models.ForeignKey(Staff, null=True, blank=True, related_name='column_tasks', on_delete=models.SET_NULL, verbose_name=u'处理人')
     pagerects = models.ManyToManyField(PageRect, limit_choices_to={'status': PageRectStatus.CUT_PAGE_COMPLETED}, blank=True )
-    page_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
+    column_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
 
     class Meta:
         verbose_name = u"列切分标注任务"
@@ -337,7 +376,7 @@ class CharTask(Task):
     schedule = models.ForeignKey(Schedule, null=True, blank=True, related_name='char_tasks', on_delete=models.SET_NULL, verbose_name=u'切分计划')
     owner = models.ForeignKey(Staff, null=True, blank=True, related_name='char_tasks', on_delete=models.SET_NULL, verbose_name=u'处理人')
     pagerects = models.ManyToManyField(PageRect, limit_choices_to={'status': PageRectStatus.CUT_COLUMN_COMPLETED}, blank=True )
-    page_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
+    char_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
 
     class Meta:
         verbose_name = u"字框切分标注任务"
@@ -347,7 +386,7 @@ class DiscernTask(Task):
     schedule = models.ForeignKey(Schedule, null=True, blank=True, related_name='discern_tasks', on_delete=models.SET_NULL, verbose_name=u'切分计划')
     owner = models.ForeignKey(Staff, null=True, blank=True, related_name='discern_tasks', on_delete=models.SET_NULL, verbose_name=u'处理人')
     pagerects = models.ManyToManyField(PageRect, limit_choices_to={'status': PageRectStatus.CUT_CHAR_COMPLETED}, blank=True )
-    page_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
+    char_set = JSONField(default=list, verbose_name=u'字块集') # [pagerect_id, {格式化好的页相关数据} ?是否需要]
 
     class Meta:
         verbose_name = u"文本识别标注任务"

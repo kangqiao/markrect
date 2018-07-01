@@ -48,24 +48,28 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 
 class PageTaskSerializer(serializers.ModelSerializer):
+    pagerects = PageRectSerializer(many=True)
     class Meta:
         model = PageTask
         fields = '__all__'
 
 
 class ColumnTaskSerializer(serializers.ModelSerializer):
+    column_set = ColumnRectSerializer(many=True)
     class Meta:
         model = ColumnTask
         fields = '__all__'
 
 
 class CharTaskSerializer(serializers.ModelSerializer):
+    char_set = CharRectSerializer(many=True)
     class Meta:
         model = CharTask
         fields = '__all__'
 
 
 class DiscernTaskSerializer(serializers.ModelSerializer):
+    char_set = CharRectSerializer(many=True)
     class Meta:
         model = DiscernTask
         fields = '__all__'

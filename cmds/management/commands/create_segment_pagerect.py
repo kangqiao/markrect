@@ -35,6 +35,9 @@ class Command(BaseCommand):
                             for reel in reel_list:
                                 print("生成{}的{}的第{}卷的标注页(PageRect)数据".format(sutra.tripitaka.name, sutra.name, reel.reel_no))
                                 for page_no in range(reel.start_vol_page, reel.end_vol_page+1):
+                                    if page_no < 0 :
+                                        print("无法生成{}的{}的第{}卷的标注页{}(PageRect)数据".format(sutra.tripitaka.name, sutra.name, reel.reel_no, page_no))
+                                        continue
                                     try:
                                         page = Page.objects.get(reel=reel, page_no=page_no)
                                     except:
@@ -42,12 +45,13 @@ class Command(BaseCommand):
                                     code = reel.reel_code() + "_P" + str(page_no)
                                     codes += code +" "
                                     img_path = settings.IMAGE_URL_PREFIX + reel.url_prefix() + str(page_no)+".jpg"
-                                    img = download_img(img_path) #下载图片存储到本地，并返回路径
-                                    zuobiaoStr = loadImg(img[0])#调用切框的算法，返回坐标值
-                                    print(zuobiaoStr)#139,39,140,25
-                                    print("=============11111============")
-                                    array = zuobiaoStr.split(',')
-                                    pagerect = PageRect(code=code, img_path=img_path, page=page, x=array[0], y=array[1], w=array[2], h=array[3], status=PageRectStatus.CUT_UNCOMPLETED)
+                                    # img = download_img(img_path) #下载图片存储到本地，并返回路径
+                                    # zuobiaoStr = loadImg(img[0])#调用切框的算法，返回坐标值
+                                    # print(zuobiaoStr)#139,39,140,25
+                                    # print("=============11111============")
+                                    # array = zuobiaoStr.split(',')
+                                    # pagerect = PageRect(code=code, img_path=img_path, page=page, x=array[0], y=array[1], w=array[2], h=array[3], status=PageRectStatus.CUT_UNCOMPLETED)
+                                    pagerect = PageRect(code=code, img_path=img_path, page=page, status=PageRectStatus.CUT_UNCOMPLETED)
                                     pagerect_list.append(pagerect)
                         else:
                             print('还未导入{}的{}经的相关卷详目信息'.format(sutra.tripitaka.name, sutra.name))
