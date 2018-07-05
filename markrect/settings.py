@@ -219,7 +219,7 @@ CORS_ORIGIN_WHITELIST = (
     '*'
 )
 
-CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?lqdzj\.cn$', )
+#CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?lqdzj\.cn$', )
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
