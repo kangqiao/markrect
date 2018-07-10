@@ -210,14 +210,11 @@ AUTH_USER_MODEL='jwt_auth.Staff'
 
 # Django配置Ajax跨域调用/设置Cookie https://blog.csdn.net/qq_30242609/article/details/73865076
 # https://www.jianshu.com/p/1fd744512d83
-CORS_ALLOW_CREDENTIALS = True
+#CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    # 'lqdzj.cn',
-    # 'localhost:8080',
-    # '127.0.0.1:8000',
-    '*'
-)
+#CORS_ORIGIN_WHITELIST = (
+#    '*'
+#)
 
 #CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?lqdzj\.cn$', )
 
