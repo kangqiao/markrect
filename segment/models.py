@@ -102,7 +102,7 @@ class PageRect(Rect):
     text = models.TextField('整页文本', default='', blank=True)
     rect_set = JSONField(default=list, verbose_name=u'字块JSON切分数据集', blank=True)
 
-    def update_date(self, x, y, w, h):
+    def update_rect(self, x, y, w, h):
         self.x = x
         self.y = y
         self.w = w
@@ -130,7 +130,7 @@ class ColumnRect(Rect):
             self.code = self.pagerect.code + "_L" + str(no)
 
     @staticmethod
-    def create_columnRect(pagerect, no, x, y, w, h):
+    def create_Rect(pagerect, no, x, y, w, h):
         if pagerect:
             column = ColumnRect(pagerect=pagerect)
             column.gen_code(no)
@@ -163,11 +163,16 @@ class CharRect(Rect):
     ch = models.CharField(null=True, blank=True, verbose_name=u'文字', max_length=2, default='') #ocr识别的, 或者上一次校对的结果.
     ts = models.CharField(null=True, blank=True, verbose_name=u'标字', max_length=2, default='') #校对后的
 
+    def gen_code(self, columnRect, no):
+        if columnRect:
+            self.char_no = int(no)
+            self.code = columnRect.code + "_C" + str(no)
+
     @staticmethod
-    def create_charRect(columnRect, no, x, y, w, h):
+    def create_Rect(columnRect, charNo, x, y, w, h):
         if columnRect:
             char = CharRect(pagerect=columnRect.pagerect, column_no=columnRect.column_no)
-            char.gen_code(no)
+            char.gen_code(columnRect, charNo)
             char.x = x
             char.y = y
             char.w = w

@@ -10,7 +10,7 @@ class Command(BaseCommand):
             # todo 执行切列的算法.
             array = []
             clno, x, y, w, h = array
-            column = ColumnRect.create_columnRect(pagerect, clno, x, y, w, h)
+            column = ColumnRect.create_Rect(pagerect, clno, x, y, w, h)
             if column: columns.append(column)
         PageRect.objects.bulk_create(columns)
 

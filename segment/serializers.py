@@ -18,8 +18,8 @@ class CharRectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class PageRectSerializer(serializers.HyperlinkedModelSerializer):
-    char_rects = CharRectSerializer(many=True)
+class PageRectSerializer(serializers.ModelSerializer):
+    #char_rects = CharRectSerializer(many=True)
 
     def to_representation(self, instance):
         '''
@@ -55,21 +55,24 @@ class PageTaskSerializer(serializers.ModelSerializer):
 
 
 class ColumnTaskSerializer(serializers.ModelSerializer):
-    column_set = ColumnRectSerializer(many=True)
+    pagerects = PageRectSerializer(many=True)
+    #column_set = ColumnRectSerializer(many=True)
     class Meta:
         model = ColumnTask
         fields = '__all__'
 
 
 class CharTaskSerializer(serializers.ModelSerializer):
-    char_set = CharRectSerializer(many=True)
+    pagerects = PageRectSerializer(many=True)
+    #char_set = CharRectSerializer(many=True)
     class Meta:
         model = CharTask
         fields = '__all__'
 
 
 class DiscernTaskSerializer(serializers.ModelSerializer):
-    char_set = CharRectSerializer(many=True)
+    pagerects = PageRectSerializer(many=True)
+    #char_set = CharRectSerializer(many=True)
     class Meta:
         model = DiscernTask
         fields = '__all__'
