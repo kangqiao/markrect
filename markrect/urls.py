@@ -18,12 +18,14 @@ from django.conf.urls.static import static
 from django.urls import include, path, re_path
 from django.conf.urls import url
 from rest_framework_swagger.views import get_swagger_view
+from django.views.generic import TemplateView
 from cmds.views import *
 import xadmin
 
 schema_view = get_swagger_view(title="藏经标注平台API")
 
 urlpatterns = [
+    path(r'index', TemplateView.as_view(template_name="index.html")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('backend/', admin.site.urls),
     path('manage/', xadmin.site.urls),

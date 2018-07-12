@@ -14,7 +14,7 @@ import os
 from django.utils.translation import ugettext_lazy as _
 import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_PARENT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.join(os.path.realpath(os.path.dirname(__file__)), os.pardir)
 
@@ -82,7 +82,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_PARENT_DIR, "tagging-platform/dist"),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -176,6 +177,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_PARENT_DIR, "tagging-platform/dist/static"),
     #os.path.join(BASE_DIR, 'xapps/common/static'),
 ]
 
