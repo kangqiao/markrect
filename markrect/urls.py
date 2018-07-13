@@ -25,7 +25,7 @@ import xadmin
 schema_view = get_swagger_view(title="藏经标注平台API")
 
 urlpatterns = [
-    path(r'index', TemplateView.as_view(template_name="index.html")),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('backend/', admin.site.urls),
     path('manage/', xadmin.site.urls),
