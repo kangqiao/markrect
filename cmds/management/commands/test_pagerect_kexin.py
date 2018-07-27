@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from tdata.models import *
+from bulk_update.helper import bulk_update
 from segment.models import PageRect, PageRectStatus
 from cmds.management.commands.pageReactArith import loadImg
 from cmds.management.commands.downImg import download_img
@@ -8,7 +9,8 @@ from cmds.management.commands.downImg import download_img
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        toCutPageList = PageRect.objects.filter(status=PageRectStatus.CUT_UNCOMPLETED)
+        #toCutPageList = PageRect.objects.filter(status=PageRectStatus.CUT_UNCOMPLETED)
+        page = PageRect.objects.get(code='QS000270_V18_R1_P47')
         updates = []
         for page in toCutPageList:
             img = download_img(page.img_path)  # 下载图片存储到本地，并返回路径

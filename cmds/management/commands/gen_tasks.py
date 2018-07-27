@@ -15,27 +15,7 @@ class Command(BaseCommand):
         test_gen_column_task()
         gen_column_task()
 
-        # Begin 测试用, 随机将部分列任务置完成状态去生成字任务数据.
-        # columnTaskList = ColumnTask.objects.filter(status=TaskStatus.COMPLETED)
-        # columntasks = []
-        # charrects = []
-        # for columnTask in columnTaskList:
-        #     ColumnRect.objects.filter()
-        #     if (random.randint(0, 9) / 2) == 0:
-        #         for pageRect in columnTask.pagerects:
-        #             columnRectList = ColumnRect.objects.filter()
-        #             for columnRect in pageRect.
-        #             columnColunt = random.randint(3, 10)
-        #             for no in range(0, columnColunt):
-        #                 column = ColumnRect.create_columnRect(pageRect, no, random.randint(10, 800), random.randint(10, 600), random.randint(25, 35), random.randint(300, 600))
-        #                 columnrects.append(column)
-        #         columnTask.status = TaskStatus.COMPLETED
-        #         columntasks.append(columnTask)
-        # ColumnRect.objects.bulk_create(columnrects)
-        # PageTask.objects.bulk_update(pagetasks)
-        # # End
-        # gen_char_task()
+        test_gen_char_task()
+        gen_char_task()
 
-
-        #gen_discern_task()
 

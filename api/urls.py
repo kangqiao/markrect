@@ -3,6 +3,7 @@ from django.conf.urls import url, include
 from django.urls import include, path
 from rest_framework import routers
 
+from api.views import task_statistics
 from tdata.views import PageViewSet
 from segment.views import PageRectViewSet, ColumnRectViewSet, CharRectViewSet, \
                             ScheduleViewSet, PageTaskViewSet, ColumnTaskViewSet, CharTaskViewSet, DiscernTaskViewSet
@@ -22,4 +23,5 @@ rectRouter.register(r'discerntask', DiscernTaskViewSet)
 
 urlpatterns = [
     url(r'^', include(rectRouter.urls)),
+    url(r'task_statistics', task_statistics)
 ]

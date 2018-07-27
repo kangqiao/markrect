@@ -14,7 +14,7 @@ import os
 from django.utils.translation import ugettext_lazy as _
 import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_PARENT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.join(os.path.realpath(os.path.dirname(__file__)), os.pardir)
 
@@ -82,7 +82,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_PARENT_DIR, "tagging-platform/dist"),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -176,7 +177,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "cmds/management/commands"),
+    os.path.join(BASE_PARENT_DIR, "tagging-platform/dist/static"),
     #os.path.join(BASE_DIR, 'xapps/common/static'),
 ]
 
@@ -209,15 +210,15 @@ JWT_AUTH = {
 
 AUTH_USER_MODEL='jwt_auth.Staff'
 
+# Django配置Ajax跨域调用/设置Cookie https://blog.csdn.net/qq_30242609/article/details/73865076
+# https://www.jianshu.com/p/1fd744512d83
+#CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_WHITELIST = (
+#    '*'
+#)
 
-CORS_ORIGIN_WHITELIST = (
-    'lqdzj.cn',
-    'localhost:8080',
-    '127.0.0.1:8000'
-)
-
-CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?lqdzj\.cn$', )
+#CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?lqdzj\.cn$', )
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
