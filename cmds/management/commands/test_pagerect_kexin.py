@@ -12,7 +12,9 @@ class Command(BaseCommand):
         updates = []
         for page in toCutPageList:
             img = download_img(page.img_path)  # 下载图片存储到本地，并返回路径
-            zuobiaoStr = loadImg(img[0])  # 调用切框的算法，返回坐标值
+            img_url = bytes(img[0], encoding='utf-8')
+            print(img_url)
+            zuobiaoStr = loadImg(img_url)  # 调用切框的算法，返回坐标值
             print(zuobiaoStr)  # 139,39,140,25
             print("=============11111============")
             array = zuobiaoStr.split(',')

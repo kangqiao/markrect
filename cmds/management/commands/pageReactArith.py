@@ -11,7 +11,7 @@ def loadImg(url):
     # with urllib.request.urlopen(url) as f:
     #     data = f.read()
     # image_data = urllib.request.urlopen(url).read()
-
+    print("LayoutCutting.so")
     dll = CDLL("./LayoutCutting.so")
 
     dll.LayoutCutting_PLZ.restype = c_char_p
