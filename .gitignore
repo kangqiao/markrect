@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # C extensions
+*.bin
 *.so
 # Distribution / packaging
 .Python
